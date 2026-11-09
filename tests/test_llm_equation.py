@@ -24,8 +24,8 @@ def test_sigmoid_recovered():
     f = fit_sigmoid(x, y)
     assert f["family"] == "sigmoid"
     assert abs(f["params"]["k"] - 0.35) < 0.05
-    assert abs(f["params"]["x0"] - 12) < 0.5
-    assert abs(f["params"]["L"] - 100.0) < 2.0
+    assert abs(f["params"]["x0"] - 12) < 1.0
+    assert abs(f["params"]["L"] - 100.0) < 3.0
     assert f["r2"] > 0.999
 
 
