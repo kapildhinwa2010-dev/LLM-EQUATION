@@ -48,6 +48,37 @@ def test_short_curve_rejected():
         distill([1, 2, 3], [1, 2, 3])
 
 
+def test_mismatched_curve_lengths_rejected():
+    with pytest.raises(ValueError, match="same number of points"):
+        distill(np.arange(8), np.arange(9))
+
+
+def test_non_finite_curve_values_rejected():
+    y = np.arange(8, dtype=float)
+    y[3] = np.nan
+    with pytest.raises(ValueError, match="finite values"):
+        distill(np.arange(8), y)
+
+
+def test_multidimensional_curve_rejected():
+    with pytest.raises(ValueError, match="one-dimensional"):
+        distill(np.ones((8, 1)), np.ones(8))
+
+
+@pytest.mark.parametrize("start", [-5.0, 0.0])
+def test_positive_domain_families_excluded_for_non_positive_x(start):
+    x = np.arange(start, start + 20.0)
+    y = 2.0 * x + 3.0
+
+    result = distill(x, y)
+
+    families = {fit["family"] for fit in result["all_fits"]}
+    assert "power" not in families
+    assert "log" not in families
+    assert all(np.isfinite(fit["r2"]) for fit in result["all_fits"])
+    assert all(np.isfinite(fit["r2_holdout"]) for fit in result["all_fits"])
+
+
 def test_cli_help_and_demo(tmp_path):
     p = subprocess.run([sys.executable, "llm_equation.py", "--help"], capture_output=True, text=True)
     assert p.returncode == 0

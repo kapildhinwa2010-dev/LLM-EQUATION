@@ -132,20 +132,34 @@ def distill(x, y, holdout_thresh=0.8):
     """Fit all families on the first half; select by BIC; judge on the second half."""
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
+    if x.ndim != 1 or y.ndim != 1:
+        raise ValueError("x and y must be one-dimensional")
+    if x.size != y.size:
+        raise ValueError("x and y must contain the same number of points")
+    if not np.isfinite(x).all() or not np.isfinite(y).all():
+        raise ValueError("x and y must contain only finite values")
     n = len(x)
     if n < 8:
         raise ValueError("need at least 8 points to distill")
     half = n // 2
     fits = []
     for f in FAMILIES:
+        # These families are defined only for strictly positive x. Check the
+        # full curve, not just the fit half, so holdout scoring stays valid.
+        if f in (fit_power, fit_log) and (x <= 0).any():
+            continue
         try:
             r = f(x[:half], y[:half])
         except Exception:
             r = None
         if r is None:
             continue
-        r["bic"] = _bic(y[:half], _predict(r, x[:half]), r["n_params"])
-        r["r2_holdout"] = _r2(y[half:], _predict(r, x[half:]))
+        yhat_fit = _predict(r, x[:half])
+        yhat_holdout = _predict(r, x[half:])
+        if not np.isfinite(yhat_fit).all() or not np.isfinite(yhat_holdout).all():
+            continue
+        r["bic"] = _bic(y[:half], yhat_fit, r["n_params"])
+        r["r2_holdout"] = _r2(y[half:], yhat_holdout)
         fits.append(r)
     if not fits:
         return {"verdict": "no-fit", "best": None, "all_fits": []}
