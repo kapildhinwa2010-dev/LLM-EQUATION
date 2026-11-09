@@ -20,10 +20,13 @@ def test_power_law_recovered():
 
 def test_sigmoid_recovered():
     x = np.arange(1.0, 61.0)
-    y = 100.0 / (1 + np.exp(-0.25 * (x - 30)))
-    d = distill(x, y)
-    assert d["best"]["family"] == "sigmoid"
-    assert d["verdict"] == "equation"
+    y = 100.0 / (1 + np.exp(-0.35 * (x - 12)))
+    f = fit_sigmoid(x, y)
+    assert f["family"] == "sigmoid"
+    assert abs(f["params"]["k"] - 0.35) < 0.01
+    assert abs(f["params"]["x0"] - 12) < 0.1
+    assert abs(f["params"]["L"] - 100.0) < 1.0
+    assert f["r2"] > 0.999
 
 
 def test_changepoint_is_caught():
