@@ -7,13 +7,12 @@ ____________________________ test_sigmoid_recovered ____________________________
         y = 100.0 / (1 + np.exp(-0.35 * (x - 12)))
         f = fit_sigmoid(x, y)
         assert f["family"] == "sigmoid"
-        assert abs(f["params"]["k"] - 0.35) < 0.01
->       assert abs(f["params"]["x0"] - 12) < 0.1
-E       assert 1.3573055477979281 < 0.1
-E        +  where 1.3573055477979281 = abs((13.357305547797928 - 12))
+>       assert abs(f["params"]["k"] - 0.35) < 0.01
+E       assert 0.020494359744097246 < 0.01
+E        +  where 0.020494359744097246 = abs((0.3704943597440972 - 0.35))
 
-tests/test_llm_equation.py:27: AssertionError
+tests/test_llm_equation.py:26: AssertionError
 =========================== short test summary info ============================
-FAILED tests/test_llm_equation.py::test_sigmoid_recovered - assert 1.3573055477979281 < 0.1
- +  where 1.3573055477979281 = abs((13.357305547797928 - 12))
-1 failed, 10 passed in 0.48s
+FAILED tests/test_llm_equation.py::test_sigmoid_recovered - assert 0.020494359744097246 < 0.01
+ +  where 0.020494359744097246 = abs((0.3704943597440972 - 0.35))
+1 failed, 10 passed in 0.27s
