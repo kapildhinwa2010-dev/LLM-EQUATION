@@ -54,6 +54,6 @@ def test_cli_help_and_demo(tmp_path):
     assert p2.returncode == 0
     with open(out) as f:
         cards = json.load(f)
-    assert len(cards) == 4
+    assert len(cards) == 5
     assert any(c["verdict"] == "equation" for c in cards)
     assert any(c["verdict"] == "curve-fit-only" for c in cards)

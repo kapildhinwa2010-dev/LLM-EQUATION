@@ -71,6 +71,27 @@ and a changepoint curve must be caught as curve-fit-only. No free passes.
 
 </details>
 
+## 📐 Known laws (already proven)
+
+The distiller also ships the closed-form laws already measured in our own
+research prototypes, as evaluatable code in `known_laws.py`:
+
+| ⚖️ Law | Equation | Measured |
+|---|---|---|
+| 🧠 knowledge capacity | `usable_bits = P·b·ρc·ρq·(1−o_ECC)·(1−o_addr)·D_derive` | 0.105 bits/bit (fact-dense), 12 bits/bit (rule-dense), D_derive = 129 |
+| 🎯 crossover rule | beats int8 teacher per byte iff `D_derive > 3.1` | threshold 3.1 |
+| 📉 spectrum power law | `s(k) = a·k^(-α)` | α = 0.81 (activations) vs 0.15 (weights) |
+| 🚫 unknown rejection gate | `p_unknown = σ(a₁·log SNR + a₂·margin + a₃·syndrome + a₄·coverage)` | 0/12 false accepts |
+
+Print them:
+
+    python llm_equation.py --laws
+
+And a new fit family (linear-through-origin) distills knowledge-density
+style curves, which the capacity law says must be linear in the derivation
+factor - now the extrapolation gate can test that claim on any measured
+density curve. 🧪
+
 ## ⚖️ License
 
 MIT - see [LICENSE](LICENSE).

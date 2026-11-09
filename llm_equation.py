@@ -22,6 +22,8 @@ import json
 
 import numpy as np
 
+from known_laws import print_law_cards
+
 
 # ------------------------------------------------------------------ fitting
 
@@ -98,7 +100,16 @@ def fit_line(x, y):
             "equation": "y = " + _fmt(slope) + " x + " + _fmt(inter), "n_params": 2}
 
 
-FAMILIES = [fit_power, fit_exp, fit_log, fit_sigmoid, fit_line]
+def fit_origin(x, y):
+    """y = a * x through the origin (knowledge-density style curves)."""
+    denom = float((x ** 2).sum()) + 1e-12
+    a = float((x * y).sum()) / denom
+    yhat = a * x
+    return {"family": "linear_origin", "params": {"a": a}, "r2": _r2(y, yhat),
+            "equation": "y = " + _fmt(a) + " x", "n_params": 1}
+
+
+FAMILIES = [fit_power, fit_exp, fit_log, fit_sigmoid, fit_line, fit_origin]
 
 
 def _fmt(v):
@@ -175,6 +186,7 @@ def builtin_curves(seed=0):
         "activation_spectrum_style": (x, power),
         "identity_retention_style": (x, sigmoid),
         "knowledge_density_style": (x, decay),
+        "knowledge_density_vs_derivation": (x, 0.105 * x * (1 + 0.01 * rng.standard_normal(60))),
         "changepoint_honesty_check": (x, cp),
     }
 
@@ -186,7 +198,12 @@ def main():
     ap.add_argument("--holdout", type=float, default=0.8)
     ap.add_argument("--output", default="equation_card.json")
     ap.add_argument("--demo", action="store_true", help="distill the built-in curve library")
+    ap.add_argument("--laws", action="store_true", help="print the known-law cards (proven equations from our research notes)")
     a = ap.parse_args()
+
+    if a.laws:
+        print_law_cards()
+        return
 
     cards = []
     if a.demo or not a.input:
