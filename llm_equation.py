@@ -181,7 +181,7 @@ def builtin_curves(seed=0):
 
 def main():
     ap = argparse.ArgumentParser(prog="llm-equation", description="Distill measured AI curves into closed-form equations with an extrapolation gate.")
-    ap.add_argument("--input", help="JSON file with a curve: {"x": [...], "y": [...]}")
+    ap.add_argument("--input", help="JSON file with a curve: {x: [...], y: [...]}")
     ap.add_argument("--name", default="user_curve")
     ap.add_argument("--holdout", type=float, default=0.8)
     ap.add_argument("--output", default="equation_card.json")
