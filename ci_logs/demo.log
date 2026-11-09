@@ -1,0 +1,22 @@
+activation_spectrum_style -> equation | y = 5.0059 * x^-1.501 | R2_holdout: 0.9988298483953605
+identity_retention_style -> curve-fit-only | y = 0.129 + 97.7596 / (1 + exp(-0.3725(x-19.6357))) | R2_holdout: -9.413800544467389
+knowledge_density_style -> equation | y = 2.9963 * exp(-0.0799 x) | R2_holdout: 0.9997401310371054
+knowledge_density_vs_derivation -> equation | y = 0.1047 x | R2_holdout: 0.9971193345628755
+changepoint_honesty_check -> curve-fit-only | y = 118.3674 * x^-1.6042 | R2_holdout: -200.7989759960148
+saved: equation_card.json
+LAW: knowledge_capacity
+    usable_bits = P * b * rho_c * rho_q * (1 - o_ecc) * (1 - o_addr) * D_derive
+    measured: {"fact_dense_bits_per_stored_bit": 0.105, "rule_dense_bits_per_stored_bit": 12.0, "derivation_factor_measured": 129}
+    note: Knowledge density is linear in the derivation factor - the entire game is D_derive.
+LAW: crossover_rule
+    dedicated memory beats an int8 teacher per byte iff D_derive > 3.1
+    measured: {"threshold": 3.1, "int8_teacher_bits_per_param": 0.25, "memory_overhead_factor": 1.3}
+    note: Beats the teacher only in derivable domains, never on arbitrary facts.
+LAW: spectrum_power_law
+    s(k) = a * k^(-alpha)
+    measured: {"alpha_activations": 0.81, "alpha_weights": 0.15, "top10_svd_variance_activations": 0.994}
+    note: Activations live near a steep power law; weights stay flat - the gap is a layer fingerprint.
+LAW: unknown_rejection_gate
+    p_unknown = sigmoid(a1*log(SNR) + a2*margin + a3*syndrome + a4*coverage + b)
+    measured: {"false_accepts_on_unknown_probes": "0/12"}
+    note: A calibrated soft gate that abstains instead of guessing.
