@@ -1,22 +1,224 @@
-.F....                                                                   [100%]
+.F..FFFFF.F                                                              [100%]
 =================================== FAILURES ===================================
+__________________ test_capacity_formula_positive_and_bounded __________________
+
+    def test_capacity_formula_positive_and_bounded():
+        bits = knowledge_capacity(P=1000, b=8, rho_c=1.0, rho_q=0.9, o_ecc=0.25, o_addr=0.0, D_derive=2.0)
+>       assert 0 < bits < 1000 * 8
+E       assert 10800.0 < (1000 * 8)
+
+tests/test_known_laws.py:18: AssertionError
+__________ test_origin_family_available_and_density_curve_is_equation __________
+
+    def test_origin_family_available_and_density_curve_is_equation():
+        x = np.arange(1.0, 61.0)
+        y = 0.105 * x * (1 + 0.001 * np.random.default_rng(0).standard_normal(60))
+>       d = distill(x, y)
+            ^^^^^^^^^^^^^
+
+tests/test_known_laws.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+llm_equation.py:143: in distill
+    r["bic"] = _bic(y[:half], _predict(r, x[:half]), r["n_params"])
+                              ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fit = {'family': 'linear_origin', 'params': {'a': 0.10498792266336787}, 'r2': 0.9999976310927375, 'equation': 'y = 0.105 x', ...}
+x = array([ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10., 11., 12., 13.,
+       14., 15., 16., 17., 18., 19., 20., 21., 22., 23., 24., 25., 26.,
+       27., 28., 29., 30.])
+
+    def _predict(fit, x):
+        x = np.asarray(x, dtype=float)
+        fam = fit["family"]
+        p = fit["params"]
+        if fam == "power":
+            return p["a"] * x ** (-p["alpha"])
+        if fam == "exponential":
+            return p["a"] * np.exp(-p["b"] * x)
+        if fam == "log":
+            return p["a"] * np.log(x) + p["b"]
+        if fam == "sigmoid":
+            return p["offset"] + p["L"] / (1 + np.exp(-p["k"] * (x - p["x0"])))
+>       return p["a"] * x + p["b"]
+                            ^^^^^^
+E       KeyError: 'b'
+
+llm_equation.py:167: KeyError
+___________________________ test_power_law_recovered ___________________________
+
+    def test_power_law_recovered():
+        x = np.arange(1.0, 81.0)
+        y = 5.0 * x ** -1.5 + 0.001
+>       d = distill(x, y)
+            ^^^^^^^^^^^^^
+
+tests/test_llm_equation.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+llm_equation.py:143: in distill
+    r["bic"] = _bic(y[:half], _predict(r, x[:half]), r["n_params"])
+                              ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fit = {'family': 'linear_origin', 'params': {'a': 0.0025816730753926913}, 'r2': -0.11877062661603022, 'equation': 'y = 0.0026 x', ...}
+x = array([ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10., 11., 12., 13.,
+       14., 15., 16., 17., 18., 19., 20., 21., 22., 23., 24., 25., 26.,
+       27., 28., 29., 30., 31., 32., 33., 34., 35., 36., 37., 38., 39.,
+       40.])
+
+    def _predict(fit, x):
+        x = np.asarray(x, dtype=float)
+        fam = fit["family"]
+        p = fit["params"]
+        if fam == "power":
+            return p["a"] * x ** (-p["alpha"])
+        if fam == "exponential":
+            return p["a"] * np.exp(-p["b"] * x)
+        if fam == "log":
+            return p["a"] * np.log(x) + p["b"]
+        if fam == "sigmoid":
+            return p["offset"] + p["L"] / (1 + np.exp(-p["k"] * (x - p["x0"])))
+>       return p["a"] * x + p["b"]
+                            ^^^^^^
+E       KeyError: 'b'
+
+llm_equation.py:167: KeyError
 ____________________________ test_sigmoid_recovered ____________________________
 
     def test_sigmoid_recovered():
         x = np.arange(1.0, 61.0)
         y = 100.0 / (1 + np.exp(-0.35 * (x - 12)))
-        d = distill(x, y)
-        assert d["best"]["family"] == "sigmoid"
->       assert d["verdict"] == "equation"
-E       AssertionError: assert 'curve-fit-only' == 'equation'
-E         
-E         - equation
-E         + curve-fit-only
+>       d = distill(x, y)
+            ^^^^^^^^^^^^^
 
-tests/test_llm_equation.py:26: AssertionError
+tests/test_llm_equation.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+llm_equation.py:143: in distill
+    r["bic"] = _bic(y[:half], _predict(r, x[:half]), r["n_params"])
+                              ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fit = {'family': 'linear_origin', 'params': {'a': 4.018214928341833}, 'r2': 0.9104344173956761, 'equation': 'y = 4.0182 x', ...}
+x = array([ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10., 11., 12., 13.,
+       14., 15., 16., 17., 18., 19., 20., 21., 22., 23., 24., 25., 26.,
+       27., 28., 29., 30.])
+
+    def _predict(fit, x):
+        x = np.asarray(x, dtype=float)
+        fam = fit["family"]
+        p = fit["params"]
+        if fam == "power":
+            return p["a"] * x ** (-p["alpha"])
+        if fam == "exponential":
+            return p["a"] * np.exp(-p["b"] * x)
+        if fam == "log":
+            return p["a"] * np.log(x) + p["b"]
+        if fam == "sigmoid":
+            return p["offset"] + p["L"] / (1 + np.exp(-p["k"] * (x - p["x0"])))
+>       return p["a"] * x + p["b"]
+                            ^^^^^^
+E       KeyError: 'b'
+
+llm_equation.py:167: KeyError
+__________________________ test_changepoint_is_caught __________________________
+
+    def test_changepoint_is_caught():
+        curves = builtin_curves(seed=1)
+        x, y = curves["changepoint_honesty_check"]
+>       c = equation_card("cp", x, y)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_llm_equation.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+llm_equation.py:171: in equation_card
+    d = distill(x, y, holdout_thresh)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+llm_equation.py:143: in distill
+    r["bic"] = _bic(y[:half], _predict(r, x[:half]), r["n_params"])
+                              ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fit = {'family': 'linear_origin', 'params': {'a': 0.09745142142322974}, 'r2': -0.15148967046540096, 'equation': 'y = 0.0975 x', ...}
+x = array([ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10., 11., 12., 13.,
+       14., 15., 16., 17., 18., 19., 20., 21., 22., 23., 24., 25., 26.,
+       27., 28., 29., 30.])
+
+    def _predict(fit, x):
+        x = np.asarray(x, dtype=float)
+        fam = fit["family"]
+        p = fit["params"]
+        if fam == "power":
+            return p["a"] * x ** (-p["alpha"])
+        if fam == "exponential":
+            return p["a"] * np.exp(-p["b"] * x)
+        if fam == "log":
+            return p["a"] * np.log(x) + p["b"]
+        if fam == "sigmoid":
+            return p["offset"] + p["L"] / (1 + np.exp(-p["k"] * (x - p["x0"])))
+>       return p["a"] * x + p["b"]
+                            ^^^^^^
+E       KeyError: 'b'
+
+llm_equation.py:167: KeyError
+____________________________ test_holdout_gate_math ____________________________
+
+    def test_holdout_gate_math():
+        x = np.arange(1.0, 61.0)
+        y = 10.0 * x ** -0.8
+>       d = distill(x, y)
+            ^^^^^^^^^^^^^
+
+tests/test_llm_equation.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+llm_equation.py:143: in distill
+    r["bic"] = _bic(y[:half], _predict(r, x[:half]), r["n_params"])
+                              ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fit = {'family': 'linear_origin', 'params': {'a': 0.052879289201828855}, 'r2': -0.6807573079878724, 'equation': 'y = 0.0529 x', ...}
+x = array([ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10., 11., 12., 13.,
+       14., 15., 16., 17., 18., 19., 20., 21., 22., 23., 24., 25., 26.,
+       27., 28., 29., 30.])
+
+    def _predict(fit, x):
+        x = np.asarray(x, dtype=float)
+        fam = fit["family"]
+        p = fit["params"]
+        if fam == "power":
+            return p["a"] * x ** (-p["alpha"])
+        if fam == "exponential":
+            return p["a"] * np.exp(-p["b"] * x)
+        if fam == "log":
+            return p["a"] * np.log(x) + p["b"]
+        if fam == "sigmoid":
+            return p["offset"] + p["L"] / (1 + np.exp(-p["k"] * (x - p["x0"])))
+>       return p["a"] * x + p["b"]
+                            ^^^^^^
+E       KeyError: 'b'
+
+llm_equation.py:167: KeyError
+____________________________ test_cli_help_and_demo ____________________________
+
+tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_cli_help_and_demo0')
+
+    def test_cli_help_and_demo(tmp_path):
+        p = subprocess.run([sys.executable, "llm_equation.py", "--help"], capture_output=True, text=True)
+        assert p.returncode == 0
+        assert "extrapolation" in p.stdout.lower()
+        out = str(tmp_path / "card.json")
+        p2 = subprocess.run([sys.executable, "llm_equation.py", "--demo", "--output", out], capture_output=True, text=True)
+>       assert p2.returncode == 0
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/opt/hostedtoolcache/Python/3.11.18/x64/bin/python', 'llm_equation.py', '--demo', '--output', ...quation.py", line 167, in _predict\n    return p["a"] * x + p["b"]\n                        ~^^^^^\nKeyError: \'b\'\n').returncode
+
+tests/test_llm_equation.py:54: AssertionError
 =========================== short test summary info ============================
-FAILED tests/test_llm_equation.py::test_sigmoid_recovered - AssertionError: assert 'curve-fit-only' == 'equation'
-  
-  - equation
-  + curve-fit-only
-1 failed, 5 passed in 0.37s
+FAILED tests/test_known_laws.py::test_capacity_formula_positive_and_bounded - assert 10800.0 < (1000 * 8)
+FAILED tests/test_known_laws.py::test_origin_family_available_and_density_curve_is_equation - KeyError: 'b'
+FAILED tests/test_llm_equation.py::test_power_law_recovered - KeyError: 'b'
+FAILED tests/test_llm_equation.py::test_sigmoid_recovered - KeyError: 'b'
+FAILED tests/test_llm_equation.py::test_changepoint_is_caught - KeyError: 'b'
+FAILED tests/test_llm_equation.py::test_holdout_gate_math - KeyError: 'b'
+FAILED tests/test_llm_equation.py::test_cli_help_and_demo - assert 1 == 0
+ +  where 1 = CompletedProcess(args=['/opt/hostedtoolcache/Python/3.11.18/x64/bin/python', 'llm_equation.py', '--demo', '--output', ...quation.py", line 167, in _predict\n    return p["a"] * x + p["b"]\n                        ~^^^^^\nKeyError: \'b\'\n').returncode
+7 failed, 4 passed in 0.44s
