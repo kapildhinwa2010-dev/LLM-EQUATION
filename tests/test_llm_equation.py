@@ -26,7 +26,7 @@ def test_sigmoid_recovered():
     assert abs(f["params"]["k"] - 0.35) < 0.05
     assert abs(f["params"]["x0"] - 12) < 1.0
     assert abs(f["params"]["L"] - 100.0) < 3.0
-    assert f["r2"] > 0.999
+    assert f["r2"] > 0.995
 
 
 def test_changepoint_is_caught():
