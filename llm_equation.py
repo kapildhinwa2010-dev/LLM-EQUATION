@@ -83,7 +83,11 @@ def fit_sigmoid(x, y):
     yn = (y - lo) / (hi - lo)
     yn = np.clip(yn, 1e-6, 1 - 1e-6)
     z = np.log(yn / (1 - yn))
-    k, inter = _lin(x, z)
+    m = np.abs(z) < 6.0
+    if m.sum() >= 4:
+        k, inter = _lin(x[m], z[m])
+    else:
+        k, inter = _lin(x, z)
     x0 = -inter / (k if abs(k) > 1e-9 else 1.0)
     params = {"L": hi - lo, "k": k, "x0": x0, "offset": lo}
     yhat = lo + (hi - lo) / (1 + np.exp(-k * (x - x0)))
