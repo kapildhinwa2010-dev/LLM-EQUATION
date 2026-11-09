@@ -1,6 +1,7 @@
-"""Known laws: closed-form findings already proven in our own research notes.
+"""Known laws: example closed-form findings distilled with this tool.
 
-These are measured results from our own prototypes - not hypotheses. The
+These are compact law cards for curves distilled from small CPU experiments
+on open-weight models - illustrative examples, not universal claims. The
 distiller in llm_equation.py can check any new curve against them, and the
 capacity/crossover laws are evaluatable directly.
 
