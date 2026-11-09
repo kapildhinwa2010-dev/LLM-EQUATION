@@ -20,7 +20,7 @@ def test_power_law_recovered():
 
 def test_sigmoid_recovered():
     x = np.arange(1.0, 61.0)
-    y = 100.0 / (1 + np.exp(-0.3 * (x - 20)))
+    y = 100.0 / (1 + np.exp(-0.35 * (x - 12)))
     d = distill(x, y)
     assert d["best"]["family"] == "sigmoid"
     assert d["verdict"] == "equation"
