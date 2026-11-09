@@ -73,8 +73,8 @@ and a changepoint curve must be caught as curve-fit-only. No free passes.
 
 ## 📐 Known laws (already proven)
 
-The distiller also ships the closed-form laws already measured in our own
-research prototypes, as evaluatable code in `known_laws.py`:
+The distiller also ships example closed-form law cards distilled with this
+tool, as evaluatable code in `known_laws.py`:
 
 | ⚖️ Law | Equation | Measured |
 |---|---|---|
