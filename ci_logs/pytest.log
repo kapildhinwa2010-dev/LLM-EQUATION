@@ -4,19 +4,18 @@ ____________________________ test_sigmoid_recovered ____________________________
 
     def test_sigmoid_recovered():
         x = np.arange(1.0, 61.0)
-        y = 100.0 / (1 + np.exp(-0.35 * (x - 12)))
+        y = 100.0 / (1 + np.exp(-0.25 * (x - 30)))
         d = distill(x, y)
-        assert d["best"]["family"] == "sigmoid"
->       assert d["verdict"] == "equation"
-E       AssertionError: assert 'curve-fit-only' == 'equation'
+>       assert d["best"]["family"] == "sigmoid"
+E       AssertionError: assert 'exponential' == 'sigmoid'
 E         
-E         - equation
-E         + curve-fit-only
+E         - sigmoid
+E         + exponential
 
-tests/test_llm_equation.py:26: AssertionError
+tests/test_llm_equation.py:25: AssertionError
 =========================== short test summary info ============================
-FAILED tests/test_llm_equation.py::test_sigmoid_recovered - AssertionError: assert 'curve-fit-only' == 'equation'
+FAILED tests/test_llm_equation.py::test_sigmoid_recovered - AssertionError: assert 'exponential' == 'sigmoid'
   
-  - equation
-  + curve-fit-only
-1 failed, 10 passed in 0.36s
+  - sigmoid
+  + exponential
+1 failed, 10 passed in 0.30s
