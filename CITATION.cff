@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use LLM-EQUATION in your research, please cite it as below."
+title: "LLM-EQUATION: distill measured AI curves into closed-form functions, with an extrapolation gate"
+authors:
+  - family-names: Dhinwa
+    given-names: Kapil
+version: 0.1.0
+date-released: "2026-11-09"
+license: MIT
+repository-code: "https://github.com/kapildhinwa2010-dev/LLM-EQUATION"
+abstract: "A numpy-only distiller that fits closed-form function families to measured behavior and knowledge curves of language models, selects the best family by BIC, and validates the result on an unseen extrapolation half of the curve. Issues equation cards with honest verdicts: an equation must predict data it never saw."
