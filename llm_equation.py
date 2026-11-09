@@ -164,6 +164,8 @@ def _predict(fit, x):
         return p["a"] * np.log(x) + p["b"]
     if fam == "sigmoid":
         return p["offset"] + p["L"] / (1 + np.exp(-p["k"] * (x - p["x0"])))
+    if fam == "linear_origin":
+        return p["a"] * x
     return p["a"] * x + p["b"]
 
 

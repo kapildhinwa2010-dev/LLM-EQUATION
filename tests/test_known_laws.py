@@ -15,7 +15,9 @@ def test_law_cards_exist():
 
 def test_capacity_formula_positive_and_bounded():
     bits = knowledge_capacity(P=1000, b=8, rho_c=1.0, rho_q=0.9, o_ecc=0.25, o_addr=0.0, D_derive=2.0)
-    assert 0 < bits < 1000 * 8
+    expected = 1000 * 8 * 1.0 * 0.9 * 0.75 * 2.0
+    assert abs(bits - expected) < 1e-9
+    assert bits > 1000 * 8  # D_derive > 1: derivation makes usable bits exceed storage
 
 
 def test_capacity_linear_in_derivation():
