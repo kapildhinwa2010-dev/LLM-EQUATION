@@ -1,0 +1,35 @@
+name: Demo run
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install project
+        run: pip install -e . pytest
+      - name: Run demo and laws
+        run: |
+          set -o pipefail
+          mkdir -p ci_logs
+          python llm_equation.py --demo 2>&1 | tee ci_logs/demo.log
+          python llm_equation.py --laws 2>&1 | tee -a ci_logs/demo.log
+      - name: Commit demo log
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ci_logs/demo.log
+          git commit -m "demo: equation distiller + known laws output [skip ci]" || echo "nothing to commit"
+          git pull --rebase origin main || true
+          git push || echo "push skipped"
