@@ -14,8 +14,8 @@ sharp question:
 
 Three steps, one honest verdict:
 
-- 🔬 **FIT** - a library of closed-form families: power law, exponential,
-  logarithmic, sigmoid, linear
+- 🔬 **FIT** - six closed-form families: power law, exponential,
+  logarithmic, sigmoid, linear, and linear-through-origin
 - 📉 **SELECT** - BIC model selection: fit quality minus complexity penalty
 - 🎯 **EXTRAPOLATION GATE** - fit on the first half of the curve, predict the
   unseen second half
@@ -63,7 +63,7 @@ and a changepoint curve must be caught as curve-fit-only. No free passes.
 <details>
 <summary>🔬 Honest limitations</summary>
 
-- Five closed-form families is a small library; a curve that follows some
+- Six closed-form families is a small library; a curve that follows some
   other law gets an honest "no-fit" or a wrong-family warning, never a fake
   verdict.
 - The extrapolation gate judges interpolation-to-extrapolation within the
